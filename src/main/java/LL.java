@@ -3,8 +3,10 @@ import java.util.List;
 
 public class LL {
 
-    static int[] data = {2,1,4,3};
+    static int[] data = {2, 1, 4, 3};
     static int[] pos = {0, 1, 2, 3, 1};
+    static Node x = new Node();
+    static Node temp = x;
 
     public static void main(String[] ar) {
 
@@ -13,27 +15,36 @@ public class LL {
             node = SortedInsert(node, data[i]);
         }
 
+        reverseRecursive(node);
+         deleteNode(node.next);
 
-        ReverseDobuly(node);
+        Reverse(node);
+    }
+
+    private static void deleteNode(Node Node_ptr) {
+
+        Node_ptr.data = Node_ptr.next.data;
+        Node_ptr.next = Node_ptr.next.next;
+
+
     }
 
     static Node Delete(Node head, int position) {
         // Complete this method
 
-        if(head==null)
+        if (head == null)
             return null;
 
         Node temp = head;
-        if(position ==0)
-        {
+        if (position == 0) {
             head = temp.next;
             return head;
 
         }
 
-        int count =0;
+        int count = 0;
 
-        while(count<position-1){
+        while (count < position - 1) {
 
             temp = temp.next;
             count++;
@@ -45,58 +56,51 @@ public class LL {
         return head;
 
 
-
-
-
     }
 
-  static   void ReversePrint(Node head) {
+    static void ReversePrint(Node head) {
         // This is a "method-only" submission.
         // You only need to complete this method.
 
         List<Integer> l = new ArrayList<>();
-        while(head!=null)
-        {
+        while (head != null) {
 
             l.add(head.data);
             head = head.next;
         }
 
-        for(int i = l.size() - 1; i >= 0; i--)
-        {
-            System.out.println(""+l.get(i));
+        for (int i = l.size() - 1; i >= 0; i--) {
+            System.out.println("" + l.get(i));
         }
 
+
+    }
+
+    static Node reverseRecursive(Node head)
+    {
+        if(head==null)return head;
+
+        reverseRecursive(head.next);
+        if (head!=null){
+        temp.data =head.data;
+        temp.next = new Node();
+        temp = temp.next;}
+        return temp;
 
     }
 
     static Node Reverse(Node head) {
 
+        Node newNode = head;
+        Node prev = null, next;
 
-
-        if(head==null)return null;
-
-        List<Integer> l = new ArrayList<>();
-        while(head!=null){
-
-            l.add(head.data);
-            head = head.next;
-
+        while (newNode != null) {
+            next = newNode.next;
+            newNode.next = prev;
+            prev = newNode;
+            newNode = next;
         }
-
-        Node n2 = new Node();
-        Node temp = n2;
-        for(int i = l.size() - 1; i >= 0; i--)
-        {
-            n2.data= l.get(i);
-            if(i!=0){
-
-                n2.next = new Node();
-                n2 = n2.next;
-            }
-        }
-
-        return temp;
+        return head;
 
     }
 
@@ -105,7 +109,7 @@ public class LL {
         Node temp = head;
         Node newHead = head;
 
-        while(temp!=null){
+        while (temp != null) {
 
             Node x = temp.next;
             temp.next = temp.prev;
@@ -122,25 +126,23 @@ public class LL {
     }
 
 
-    static Node SortedInsert(Node head,int data) {
+    static Node SortedInsert(Node head, int data) {
 
         Node n = new Node();
         n.data = data;
 
-        if(head==null)return n;
+        if (head == null) return n;
 
         Node temp = head;
 
-        while(temp!=null){
+        while (temp != null) {
 
-            if(temp.next==null && temp.prev==null)
-            {
+            if (temp.next == null && temp.prev == null) {
 
-                if(temp.data<data){
+                if (temp.data < data) {
                     temp.next = n;
                     n.prev = temp;
-                }
-                else{
+                } else {
                     temp.prev = n;
                     n.next = temp;
                     head = n;
@@ -148,15 +150,13 @@ public class LL {
 
                 break;
             }
-            if(temp.next==null)
-            {
+            if (temp.next == null) {
                 temp.next = n;
                 n.prev = temp;
                 break;
             }
 
-            if (temp.data < data && temp.next.data > data)
-            {
+            if (temp.data < data && temp.next.data > data) {
                 temp.next.prev = n;
                 n.next = temp.next;
                 temp.next = n;
@@ -169,9 +169,6 @@ public class LL {
 
         }
         return head;
-
-
-
 
 
     }
@@ -196,7 +193,7 @@ public class LL {
             return n;
         }
 
-        while (count < position-1) {
+        while (count < position - 1) {
 
             temp = temp.next;
             count++;
